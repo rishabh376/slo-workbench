@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slo-workbench
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: slo-workbench
+  template:
+    metadata:
+      labels:
+        app: slo-workbench
+    spec:
+      containers:
+      - name: app
+        image: ghcr.io/example/slo-workbench:latest
+        ports:
+        - containerPort: 8080
+        livenessProbe: { httpGet: { path: /healthz, port: 8080 } }
+        readinessProbe: { httpGet: { path: /healthz, port: 8080 } }
